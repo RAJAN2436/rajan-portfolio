@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { profile, stack } from "@/lib/data";
@@ -30,7 +31,7 @@ export default function Hero() {
           className="order-2 md:order-1"
         >
           <motion.p variants={item} className="section-eyebrow mb-5">
-            // building intelligent systems
+            {"// building intelligent systems"}
           </motion.p>
 
           <motion.h1
@@ -132,10 +133,11 @@ function OrbitRing() {
 
       {/* glow core */}
       <div className="absolute inset-[22%] rounded-full bg-gradient-to-br from-starlight/20 to-comet/10 border border-starlight/30 backdrop-blur-sm overflow-hidden">
-        <img
-          src="images/MyPic.jpg"
+        <Image
+          src="/images/MyPic.jpg"
           alt="Profile portrait of a smiling developer in a glowing circular orbit graphic with floating technology tags in a stylized digital portfolio section"
-          className="w-full h-full object-cover object-center"
+          fill
+          className="object-cover object-center"
         />
       </div>
 

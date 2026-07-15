@@ -26,7 +26,7 @@ export default function Contact() {
     <section id="contact" className="relative py-28 md:py-36">
       <div className="max-w-6xl mx-auto px-6 md:px-10">
         <div ref={ref} className="reveal">
-          <p className="section-eyebrow mb-3">// contact</p>
+          <p className="section-eyebrow mb-3">{"// contact"}</p>
           <h2 className="font-display text-3xl md:text-4xl text-ink mb-14">
             Get in touch
           </h2>
