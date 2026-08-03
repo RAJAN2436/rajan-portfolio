@@ -36,11 +36,11 @@ export default function CursorDot() {
 
     const handleHoverIn = () => {
       ringScale = 1.8;
-      ringRef.current?.classList.add("border-comet", "bg-comet/10");
+      ringRef.current?.classList.add("bg-white");
     };
     const handleHoverOut = () => {
       ringScale = 1;
-      ringRef.current?.classList.remove("border-comet", "bg-comet/10");
+      ringRef.current?.classList.remove("bg-white");
     };
 
     let raf: number;
@@ -85,11 +85,11 @@ export default function CursorDot() {
     <>
       <div
         ref={dotRef}
-        className="fixed top-0 left-0 w-1.5 h-1.5 rounded-full bg-starlight pointer-events-none z-[100] shadow-[0_0_8px_2px_rgba(124,158,255,0.8)]"
+        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-white mix-blend-difference pointer-events-none z-[100]"
       />
       <div
         ref={ringRef}
-        className="fixed top-0 left-0 w-8 h-8 rounded-full border border-starlight/50 pointer-events-none z-[100] transition-colors duration-200 ease-out"
+        className="fixed top-0 left-0 w-8 h-8 rounded-full border border-white mix-blend-difference pointer-events-none z-[100] transition-colors duration-200 ease-out"
       />
     </>
   );

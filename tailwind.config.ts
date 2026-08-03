@@ -8,14 +8,9 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        void: "#0A0D17",
-        panel: "#12162A",
-        panelLight: "#1A1F3A",
-        starlight: "#7C9EFF",
-        comet: "#FFB86B",
-        ink: "#E8EAF6",
-        muted: "#8A90B3",
-        line: "#242B4D",
+        background: "#e5e5e5", // Light textured gray from the resume
+        foreground: "#000000",
+        border: "#000000",
       },
       fontFamily: {
         display: ["var(--font-space-grotesk)", "sans-serif"],
@@ -23,24 +18,15 @@ const config: Config = {
         mono: ["var(--font-jetbrains)", "monospace"],
       },
       backgroundImage: {
-        "grid-pattern":
-          "linear-gradient(to right, #ffffff08 1px, transparent 1px), linear-gradient(to bottom, #ffffff08 1px, transparent 1px)",
-      },
-      backgroundSize: {
-        grid: "48px 48px",
+        "noise": "url('/images/noise.png')", // We can generate a CSS noise pattern later if needed
       },
       animation: {
-        "fade-up": "fadeUp 0.8s ease forwards",
-        twinkle: "twinkle 3s ease-in-out infinite",
+        "fade-up": "fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards",
       },
       keyframes: {
         fadeUp: {
           "0%": { opacity: "0", transform: "translateY(24px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
-        },
-        twinkle: {
-          "0%, 100%": { opacity: "0.3" },
-          "50%": { opacity: "1" },
         },
       },
     },

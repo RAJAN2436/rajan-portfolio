@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import CursorDot from "@/components/CursorDot";
-import StarField from "@/components/StarField";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -17,16 +16,16 @@ const inter = Inter({
   weight: ["300", "400", "500", "600"],
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const jetBrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains",
   weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
-  title: "Rajan Sharma — Full Stack Developer",
+  title: "Rajan Sharma — AI Engineer & Full Stack Developer",
   description:
-    "Portfolio of Rajan Sharma, BCA AI & ML student and full stack developer building intelligent, real-world digital solutions.",
+    "Portfolio of Rajan Sharma, AI Engineer and full stack developer building intelligent, real-world digital solutions.",
 };
 
 export default function RootLayout({
@@ -37,9 +36,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} font-body bg-void text-ink antialiased selection:bg-starlight/30 selection:text-white`}
+        className={`${spaceGrotesk.variable} ${inter.variable} ${jetBrainsMono.variable} font-body bg-white text-black antialiased selection:bg-black selection:text-white`}
       >
-        <StarField />
         <CursorDot />
         <div className="relative z-10">{children}</div>
       </body>

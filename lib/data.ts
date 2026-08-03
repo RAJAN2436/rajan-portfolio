@@ -1,77 +1,49 @@
 export const profile = {
   name: "Rajan Sharma",
-  role: "Full Stack Developer",
+  role: "AI Engineer",
   location: "Bareilly, Uttar Pradesh",
   email: "rajansharma243641@gmail.com",
-  phone: "+91 7452073580",
+  phone: "+91-74520-73580",
+  website: "mrajansharma.vercel.app",
+  summary:
+    "Experienced in developing AI-driven tools, from concept design to deployment, with hands-on exposure to the full project development lifecycle.",
   social: {
     github: "https://github.com/RAJAN2436",
     linkedin: "https://www.linkedin.com/in/rajan-sharma-stack/",
-    instagram: "https://www.instagram.com/offlcial_rajan__sharma/",
-    whatsapp:
-      "https://api.whatsapp.com/send/?phone=7452073580&text&type=phone_number&app_absent=0&wame_ctl=1",
   },
 };
 
-export const stack = [
-  "Artificial Intelligence Engineer",
-  "Machine Learning",
-  "Deep Learning",
-  "Natural Language Processing",
-  "Computer Vision",
-  "Data Analysis",
-  "Data Visualization",
-  "Web Development",
-  "Front-End Development",
-  "Back-End Development",
-  "Full-Stack Development",
-  "Database Management",
-  "Version Control (Git)",
-  "Problem Solving",
+export const experience = [
+  {
+    id: "01",
+    role: "Developer",
+    company: "InvertisPrep",
+    period: "2026 - Present",
+    description:
+      "Working as a Web Developer at InvertisPrep, an ed-tech learning platform providing PYQs and exam preparation resources for students.",
+  },
+  {
+    id: "02",
+    role: "Founder",
+    company: "StackLabs",
+    period: "2026 - Present",
+    description:
+      "Founder of StackLabs, leading the design and development of web/software products from concept to execution.",
+  },
 ];
 
-export const qualifications = {
-  degree: "BCA — AI & ML",
-  period: "2025 — Present",
-};
-
-export const experience = {
-  role: "AI Internship",
-  company: "Codec Technologies",
-  period: "Feb 2026 — Present",
-  duration: "1 Month",
-};
-
-export const skills = [
-  "Python",
-  "JavaScript",
-  "TypeScript",
-  "React",
-  "Next.js",
-  "Node.js",
-  "Express.js",
-  "MongoDB",
-  "SQL",
-  "HTML",
-  "CSS",
-  "Tailwind CSS",
-  "Bootstrap",
-  "Git & GitHub",
-  "Docker",
-  "Kubernetes",
-  "AWS",
-  "Azure",
-  "GCP",
-  "Linux",
-  "Data Structures & Algorithms",
-  "Machine Learning",
-  "Deep Learning",
-  "Natural Language Processing",
-  "Computer Vision",
-  "Data Analysis",
-  "Data Visualization",
-  "Problem Solving",
+export const education = [
+  {
+    id: "01",
+    degree: "Bachelor of Computer Application",
+    school: "Invertis University Bareilly",
+    period: "2018 - 2020",
+    description:
+      "Specialized in Full Stack Development, AI Engineering, and Machine Learning, with additional expertise in UI/UX Design, startup leadership, and strong communication abilities.",
+  },
 ];
+
+export const skills = ["Full-Stack Dev", "AI Engineering", "Machine Learning"];
 
 export type Project = {
   title: string;
@@ -103,21 +75,10 @@ export const projects: Project[] = [
   },
   {
     title: "Sharma Makeovers",
-    description:
-      "A clean interface platform of Makeup academy.",
+    description: "A clean interface platform of Makeup academy.",
     tech: ["MongoDB", "Express.js", "React", "Node.js"],
     demoUrl: "https://sharma-makeovers.vercel.app/",
     githubUrl: "https://github.com/RAJAN2436/sharma-makeovers",
-    status: "live",
-  },
-  {
-    title: "Number Guessing Game",
-    description:
-      "A modern C-based number guessing game with difficulty modes, a scoring system, high-score tracking, ANSI terminal support, input validation, and a clean modular structure.",
-    tech: ["C"],
-    demoUrl:
-      "https://github.com/RAJAN2436/Number-Guessing-Game/blob/main/Number%20guessing%20game.c",
-    githubUrl: "https://github.com/RAJAN2436/Number-Guessing-Game/tree/main",
     status: "live",
   },
 ];
