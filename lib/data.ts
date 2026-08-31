@@ -35,9 +35,9 @@ export const experience = [
 export const education = [
   {
     id: "01",
-    degree: "Bachelor of Computer Application",
+    degree: "Bachelor of Computer Application With Artificial Intelligence",
     school: "Invertis University Bareilly",
-    period: "2018 - 2020",
+    period: "2025 - 2028",
     description:
       "Specialized in Full Stack Development, AI Engineering, and Machine Learning, with additional expertise in UI/UX Design, startup leadership, and strong communication abilities.",
   },
