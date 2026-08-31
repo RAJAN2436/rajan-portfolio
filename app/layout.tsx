@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import CursorDot from "@/components/CursorDot";
+import { Analytics } from "@vercel/analytics/next"
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],

@@ -17,7 +17,6 @@ import {
   SiPytorch, SiTensorflow, SiDocker
 } from "react-icons/si";
 import { FaAws, FaRobot } from "react-icons/fa";
-import { Analytics } from "@vercel/analytics/next"
 
 const skillItems = [
   { name: "Python", Icon: SiPython },
