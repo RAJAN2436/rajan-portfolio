@@ -26,7 +26,7 @@ const jetBrainsMono = JetBrains_Mono({
   weight: ["400", "500"],
 });
 
-const siteUrl = "https://mrajansharma.vercel.app";
+const siteUrl = "https://rajanstack.me";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -93,6 +93,9 @@ export const metadata: Metadata = {
       "max-image-preview": "large",
       "max-snippet": -1,
     },
+  },
+  verification: {
+    google: "google26ed4088d6bcfd78",
   },
   category: "technology",
 };

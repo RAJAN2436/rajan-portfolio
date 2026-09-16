@@ -4,7 +4,7 @@ export const profile = {
   location: "Bareilly, Uttar Pradesh",
   email: "rajansharma243641@gmail.com",
   phone: "+91-74520-73580",
-  website: "mrajansharma.vercel.app",
+  website: "rajanstack.me",
   summary:
     "Experienced in developing AI-driven tools, from concept design to deployment, with hands-on exposure to the full project development lifecycle.",
   social: {
