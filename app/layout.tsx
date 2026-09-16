@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 import CursorDot from "@/components/CursorDot";
 import SmoothScroll from "@/components/SmoothScroll";
@@ -37,7 +38,7 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en">
       <body
         className={`${spaceGrotesk.variable} ${inter.variable} ${jetBrainsMono.variable} font-body bg-white text-black antialiased selection:bg-black selection:text-white`}
       >

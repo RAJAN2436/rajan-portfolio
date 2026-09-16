@@ -29,19 +29,19 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
   const [lenis, setLenis] = useState<Lenis | null>(null);
 
   useEffect(() => {
-    // Custom cubic/exponential easing for fluid, luxury-feel inertia
+    // Highly refined, buttery smooth inertia scroll tuning
     const lenisInstance = new Lenis({
-      duration: 1.25,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      lerp: 0.08, // Premium cinematic momentum smoothing
+      wheelMultiplier: 0.9, // Balanced scroll velocity
+      touchMultiplier: 1.5, // Responsive touch glide
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
-      wheelMultiplier: 1.0,
-      touchMultiplier: 1.2,
       infinite: false,
     });
 
     setLenis(lenisInstance);
+    (window as any).lenis = lenisInstance;
 
     let rafId: number;
     function raf(time: number) {
@@ -50,7 +50,7 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     }
     rafId = requestAnimationFrame(raf);
 
-    // Global listener for in-page anchor links (e.g. href="#about", href="#work")
+    // Global intercept for all in-page hash links (e.g. href="#about", href="#work")
     const handleAnchorClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null;
       const anchor = target?.closest('a[href^="#"]') as HTMLAnchorElement | null;
@@ -63,8 +63,8 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
       if (targetEl) {
         e.preventDefault();
         lenisInstance.scrollTo(targetEl as HTMLElement, {
-          offset: -30,
-          duration: 1.3,
+          offset: -20,
+          duration: 1.4,
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         });
       }
@@ -77,6 +77,7 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
       cancelAnimationFrame(rafId);
       lenisInstance.destroy();
       setLenis(null);
+      delete (window as any).lenis;
     };
   }, []);
 
@@ -93,8 +94,8 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
   ) => {
     if (lenis) {
       lenis.scrollTo(target, {
-        offset: options?.offset ?? -30,
-        duration: options?.duration ?? 1.3,
+        offset: options?.offset ?? -20,
+        duration: options?.duration ?? 1.4,
         easing: options?.easing ?? ((t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))),
         ...options,
       });

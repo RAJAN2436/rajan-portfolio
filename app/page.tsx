@@ -188,7 +188,7 @@ function InfiniteMarquee({
 
 export default function Home() {
   const containerRef = useRef<HTMLElement>(null);
-  const { scrollTo } = useSmoothScroll();
+  const { lenis, scrollTo } = useSmoothScroll();
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -207,14 +207,18 @@ export default function Home() {
 
   useEffect(() => {
     if (isLoading) {
+      lenis?.stop();
       document.body.style.overflow = "hidden";
     } else {
+      lenis?.start();
       document.body.style.overflow = "unset";
+      window.scrollTo(0, 0);
     }
     return () => {
+      lenis?.start();
       document.body.style.overflow = "unset";
     };
-  }, [isLoading]);
+  }, [isLoading, lenis]);
 
   useEffect(() => {
     const handleScroll = () => {
