@@ -3,7 +3,9 @@ import type { ReactNode } from "react";
 import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import CursorDot from "@/components/CursorDot";
-import { Analytics } from "@vercel/analytics/next"
+import SmoothScroll from "@/components/SmoothScroll";
+import ScrollProgressBar from "@/components/ScrollProgressBar";
+import { Analytics } from "@vercel/analytics/next";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -35,12 +37,16 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
       <body
         className={`${spaceGrotesk.variable} ${inter.variable} ${jetBrainsMono.variable} font-body bg-white text-black antialiased selection:bg-black selection:text-white`}
       >
-        <CursorDot />
-        <div className="relative z-10">{children}</div>
+        <SmoothScroll>
+          <ScrollProgressBar />
+          <CursorDot />
+          <div className="relative z-10">{children}</div>
+        </SmoothScroll>
+        <Analytics />
       </body>
     </html>
   );

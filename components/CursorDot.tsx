@@ -6,6 +6,7 @@ export default function CursorDot() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const [isTouch, setIsTouch] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const touchCheck = window.matchMedia("(hover: none)").matches;
@@ -17,65 +18,113 @@ export default function CursorDot() {
     let ringX = -100;
     let ringY = -100;
     let ringScale = 1;
-    let clicking = false;
+    let isHovering = false;
+    let isClicking = false;
 
-    const handleMove = (e: MouseEvent) => {
+    const handleMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
+      setIsVisible(true);
+
       if (dotRef.current) {
-        dotRef.current.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+        dotRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
       }
     };
 
-    const handleDown = () => {
-      clicking = true;
-    };
-    const handleUp = () => {
-      clicking = false;
+    const handleMouseDown = () => {
+      isClicking = true;
     };
 
-    const handleHoverIn = () => {
-      ringScale = 1.8;
-      ringRef.current?.classList.add("bg-white");
-    };
-    const handleHoverOut = () => {
-      ringScale = 1;
-      ringRef.current?.classList.remove("bg-white");
+    const handleMouseUp = () => {
+      isClicking = false;
     };
 
-    let raf: number;
+    const handleMouseLeave = () => {
+      setIsVisible(false);
+    };
+
+    const handleMouseEnter = () => {
+      setIsVisible(true);
+    };
+
+    // Delegated hover detection for interactive elements (supports dynamic elements too)
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+
+      const interactive = target.closest(
+        'a, button, input, textarea, select, [data-cursor-hover], [role="button"], .group, summary'
+      );
+
+      if (interactive) {
+        isHovering = true;
+        ringScale = 1.9;
+        if (ringRef.current) {
+          ringRef.current.style.borderColor = "rgba(255, 255, 255, 0.9)";
+          ringRef.current.style.backgroundColor = "rgba(255, 255, 255, 0.15)";
+        }
+      }
+    };
+
+    const handleMouseOut = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+
+      const interactive = target.closest(
+        'a, button, input, textarea, select, [data-cursor-hover], [role="button"], .group, summary'
+      );
+
+      if (interactive) {
+        // Check if relatedTarget is still within the same interactive element
+        const related = e.relatedTarget as HTMLElement | null;
+        if (!related || !related.closest('a, button, input, textarea, select, [data-cursor-hover], [role="button"], .group, summary')) {
+          isHovering = false;
+          ringScale = 1;
+          if (ringRef.current) {
+            ringRef.current.style.borderColor = "rgba(255, 255, 255, 0.8)";
+            ringRef.current.style.backgroundColor = "transparent";
+          }
+        }
+      }
+    };
+
+    let rafId: number;
     const animateRing = () => {
+      // Smooth lerping with 0.18 factor for responsive yet fluid trailing
       ringX += (mouseX - ringX) * 0.18;
       ringY += (mouseY - ringY) * 0.18;
-      const targetScale = clicking ? ringScale * 0.75 : ringScale;
-      if (ringRef.current) {
-        ringRef.current.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%) scale(${targetScale})`;
+
+      let currentScale = ringScale;
+      if (isClicking) {
+        currentScale *= 0.8;
       }
-      raf = requestAnimationFrame(animateRing);
+
+      if (ringRef.current) {
+        ringRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%) scale(${currentScale})`;
+      }
+
+      rafId = requestAnimationFrame(animateRing);
     };
-    animateRing();
 
-    window.addEventListener("mousemove", handleMove);
-    window.addEventListener("mousedown", handleDown);
-    window.addEventListener("mouseup", handleUp);
+    rafId = requestAnimationFrame(animateRing);
 
-    const interactive = document.querySelectorAll(
-      "a, button, input, textarea, [data-cursor-hover]"
-    );
-    interactive.forEach((el) => {
-      el.addEventListener("mouseenter", handleHoverIn);
-      el.addEventListener("mouseleave", handleHoverOut);
-    });
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("mousedown", handleMouseDown);
+    window.addEventListener("mouseup", handleMouseUp);
+    document.addEventListener("mouseleave", handleMouseLeave);
+    document.addEventListener("mouseenter", handleMouseEnter);
+    document.addEventListener("mouseover", handleMouseOver, { passive: true });
+    document.addEventListener("mouseout", handleMouseOut, { passive: true });
 
     return () => {
-      window.removeEventListener("mousemove", handleMove);
-      window.removeEventListener("mousedown", handleDown);
-      window.removeEventListener("mouseup", handleUp);
-      interactive.forEach((el) => {
-        el.removeEventListener("mouseenter", handleHoverIn);
-        el.removeEventListener("mouseleave", handleHoverOut);
-      });
-      cancelAnimationFrame(raf);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("mouseleave", handleMouseLeave);
+      document.removeEventListener("mouseenter", handleMouseEnter);
+      document.removeEventListener("mouseover", handleMouseOver);
+      document.removeEventListener("mouseout", handleMouseOut);
+      cancelAnimationFrame(rafId);
     };
   }, []);
 
@@ -83,13 +132,17 @@ export default function CursorDot() {
 
   return (
     <>
+      {/* Center pinpoint */}
       <div
         ref={dotRef}
-        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-white mix-blend-difference pointer-events-none z-[100]"
+        style={{ opacity: isVisible ? 1 : 0 }}
+        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-white mix-blend-difference pointer-events-none z-[10000] will-change-transform transition-opacity duration-300"
       />
+      {/* Fluid trailing ring */}
       <div
         ref={ringRef}
-        className="fixed top-0 left-0 w-8 h-8 rounded-full border border-white mix-blend-difference pointer-events-none z-[100] transition-colors duration-200 ease-out"
+        style={{ opacity: isVisible ? 1 : 0 }}
+        className="fixed top-0 left-0 w-9 h-9 rounded-full border border-white/80 mix-blend-difference pointer-events-none z-[10000] will-change-transform transition-opacity duration-300 backdrop-blur-[0.5px]"
       />
     </>
   );
