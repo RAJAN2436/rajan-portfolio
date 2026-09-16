@@ -374,7 +374,7 @@ export default function Home() {
                 <div className="relative w-full h-full rounded-2xl overflow-hidden border-2 border-black group shadow-md hover:shadow-xl transition-shadow duration-500">
                   <Image
                     src="/images/MyPic.jpg"
-                    alt="Rajan Sharma"
+                    alt="Rajan Sharma — AI Engineer and Full Stack Developer"
                     fill
                     className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
                     priority
@@ -498,7 +498,7 @@ export default function Home() {
             <div className="relative aspect-[3/4] w-full overflow-hidden group rounded-2xl shadow-lg border border-black/10">
               <Image
                 src="/images/MyPic.jpg"
-                alt="Rajan Sharma portrait"
+                alt="Rajan Sharma — Founder of StackLabs and AI Engineer Portrait"
                 fill
                 className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105 ease-out"
               />
