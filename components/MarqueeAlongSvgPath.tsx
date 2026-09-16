@@ -10,6 +10,7 @@ import {
   useSpring,
   useTransform,
   useVelocity,
+  useInView,
   motionValue,
   MotionValue,
 } from "framer-motion"
@@ -283,6 +284,8 @@ const MarqueeAlongSvgPath = ({
   const scrollVelocity = useVelocity(scrollY)
   const smoothVelocity = useSpring(scrollVelocity, scrollSpringConfig)
 
+  const isInView = useInView(container, { margin: "100px" })
+
   const isHovered = useRef(false)
   const isDragging = useRef(false)
   const dragVelocity = useRef(0)
@@ -300,6 +303,8 @@ const MarqueeAlongSvgPath = ({
   )
 
   useAnimationFrame((_, delta) => {
+    if (!isInView) return
+
     if (isDragging.current && draggable) {
       baseOffset.set(baseOffset.get() + dragVelocity.current)
       dragVelocity.current *= 0.9

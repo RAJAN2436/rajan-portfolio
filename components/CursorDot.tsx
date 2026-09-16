@@ -18,8 +18,41 @@ export default function CursorDot() {
     let ringX = -100;
     let ringY = -100;
     let ringScale = 1;
-    let isHovering = false;
     let isClicking = false;
+    let isRunning = false;
+    let rafId: number = 0;
+
+    const startLoop = () => {
+      if (!isRunning) {
+        isRunning = true;
+        rafId = requestAnimationFrame(animateRing);
+      }
+    };
+
+    const animateRing = () => {
+      const dx = mouseX - ringX;
+      const dy = mouseY - ringY;
+      ringX += dx * 0.2;
+      ringY += dy * 0.2;
+
+      let currentScale = ringScale;
+      if (isClicking) {
+        currentScale *= 0.8;
+      }
+
+      if (ringRef.current) {
+        ringRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%) scale(${currentScale})`;
+      }
+
+      // If position has converged and no interaction is changing state, pause RAF to save cycles
+      if (Math.abs(dx) < 0.15 && Math.abs(dy) < 0.15 && !isClicking) {
+        isRunning = false;
+        rafId = 0;
+        return;
+      }
+
+      rafId = requestAnimationFrame(animateRing);
+    };
 
     const handleMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX;
@@ -29,14 +62,17 @@ export default function CursorDot() {
       if (dotRef.current) {
         dotRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
       }
+      startLoop();
     };
 
     const handleMouseDown = () => {
       isClicking = true;
+      startLoop();
     };
 
     const handleMouseUp = () => {
       isClicking = false;
+      startLoop();
     };
 
     const handleMouseLeave = () => {
@@ -45,9 +81,9 @@ export default function CursorDot() {
 
     const handleMouseEnter = () => {
       setIsVisible(true);
+      startLoop();
     };
 
-    // Delegated hover detection for interactive elements (supports dynamic elements too)
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null;
       if (!target) return;
@@ -57,12 +93,12 @@ export default function CursorDot() {
       );
 
       if (interactive) {
-        isHovering = true;
-        ringScale = 1.9;
+        ringScale = 1.8;
         if (ringRef.current) {
           ringRef.current.style.borderColor = "rgba(255, 255, 255, 0.9)";
           ringRef.current.style.backgroundColor = "rgba(255, 255, 255, 0.15)";
         }
+        startLoop();
       }
     };
 
@@ -75,38 +111,17 @@ export default function CursorDot() {
       );
 
       if (interactive) {
-        // Check if relatedTarget is still within the same interactive element
         const related = e.relatedTarget as HTMLElement | null;
         if (!related || !related.closest('a, button, input, textarea, select, [data-cursor-hover], [role="button"], .group, summary')) {
-          isHovering = false;
           ringScale = 1;
           if (ringRef.current) {
             ringRef.current.style.borderColor = "rgba(255, 255, 255, 0.8)";
             ringRef.current.style.backgroundColor = "transparent";
           }
+          startLoop();
         }
       }
     };
-
-    let rafId: number;
-    const animateRing = () => {
-      // Smooth lerping with 0.18 factor for responsive yet fluid trailing
-      ringX += (mouseX - ringX) * 0.18;
-      ringY += (mouseY - ringY) * 0.18;
-
-      let currentScale = ringScale;
-      if (isClicking) {
-        currentScale *= 0.8;
-      }
-
-      if (ringRef.current) {
-        ringRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%) scale(${currentScale})`;
-      }
-
-      rafId = requestAnimationFrame(animateRing);
-    };
-
-    rafId = requestAnimationFrame(animateRing);
 
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
     window.addEventListener("mousedown", handleMouseDown);
@@ -124,7 +139,7 @@ export default function CursorDot() {
       document.removeEventListener("mouseenter", handleMouseEnter);
       document.removeEventListener("mouseover", handleMouseOver);
       document.removeEventListener("mouseout", handleMouseOut);
-      cancelAnimationFrame(rafId);
+      if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);
 
@@ -132,13 +147,11 @@ export default function CursorDot() {
 
   return (
     <>
-      {/* Center pinpoint */}
       <div
         ref={dotRef}
         style={{ opacity: isVisible ? 1 : 0 }}
         className="fixed top-0 left-0 w-2 h-2 rounded-full bg-white mix-blend-difference pointer-events-none z-[10000] will-change-transform transition-opacity duration-300"
       />
-      {/* Fluid trailing ring */}
       <div
         ref={ringRef}
         style={{ opacity: isVisible ? 1 : 0 }}
